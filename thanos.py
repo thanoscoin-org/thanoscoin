@@ -15,6 +15,8 @@ class Block:
             'trx': self.trx
         }
 
+        return block_info
+
 class ThanosChain:
     def __init__(self):
 
@@ -23,7 +25,16 @@ class ThanosChain:
 
     def create_block(self):
 
-        self.block = Block()
+        last_block = self.chain[-1]
+        previous_hash = last_block['previous_hash']
+
+        nonce, block_hash = self.proof_of_work()
+
+        self.block = Block(nonce=nonce, hash=block_hash, previous_hash=previous_hash, trx=self.temp_trx)
+        self.chain.append(self.block.retrieve_information())
+        self.temp_trx = []
+
+        return self.block.retrieve_information
 
     def create_transaction(self, sender, recipient, amount):
         
@@ -38,11 +49,33 @@ class ThanosChain:
 
         self.temp_trx.append(transaction)
 
-    def proof_of_work():
-        pass
+    def proof_of_work(self):
+        last_block = self.chain[-1]
+        previous_hash = last_block['previous_hash']
+        nonce = str(last_block['nonce'])
+        hash = last_block['hash']
 
-    def create_block_data():
-        pass
+        input_string = previous_hash + "-" + nonce + "-" + hash
 
-    def create_genesis_block():
-        pass
+        salt = 0 
+        while True:
+            input_string = nput_string + str(salt)
+            temp_hash = hashlib.sha256(input_string.encode()).hexdigest()
+            if temp_hash[:4] == 'f':
+                break
+            else:
+                salt += 1
+        
+        return salt, temp_hash
+
+    def create_genesis_block(self):
+        nonce = 0 
+        previous_hash = "140264396"
+        trx = []
+
+        block_data = str(nonce) + previous_hash + str(trx)
+        hash = hashlib.sha256(block_data.encode()).hexdigest()
+
+        genesis = Block(nonce=nonce, hash=hash, previous_hash=previous_hash, trx=trx)
+        self.chain.append(genesis.retrieve_information())
+        
