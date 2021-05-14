@@ -9,7 +9,7 @@ class Block:
     
     def retrieve_information(self):
         block_info = {
-            'previous_hash':self.previous_hash,
+            'previous_hash': self.previous_hash,
             'hash': self.hash,
             'nonce': self.nonce,
             'trx': self.trx
