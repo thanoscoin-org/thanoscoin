@@ -3,6 +3,7 @@ from flask import Flask, request
 import uuid 
 
 node_id = uuid.uuid4()
+node_id = str(node_id)
 thanos_chain = ThanosChain()
 thanos_chain.create_genesis_block()
 
