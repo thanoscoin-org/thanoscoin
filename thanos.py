@@ -59,9 +59,9 @@ class ThanosChain:
 
         salt = 0 
         while True:
-            input_string = nput_string + str(salt)
+            input_string = input_string + str(salt)
             temp_hash = hashlib.sha256(input_string.encode()).hexdigest()
-            if temp_hash[:4] == 'f':
+            if temp_hash[:4] == 'ffff':
                 break
             else:
                 salt += 1
