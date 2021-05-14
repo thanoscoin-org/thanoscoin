@@ -17,10 +17,13 @@ class Block:
 
 class ThanosChain:
     def __init__(self):
+
+        self.chain = []
         self.temp_trx = []
 
-    def create_block():
-        pass 
+    def create_block(self):
+
+        self.block = Block()
 
     def create_transaction(self, sender, recipient, amount):
         
@@ -39,4 +42,7 @@ class ThanosChain:
         pass
 
     def create_block_data():
+        pass
+
+    def create_genesis_block():
         pass
