@@ -14,3 +14,19 @@ class Block:
             'nonce': self.nonce,
             'trx': self.trx
         }
+
+class ThanosChain:
+    def __init__(self):
+        self.temp_trx = []
+
+    def create_block():
+        pass 
+
+    def create_transaction():
+        pass
+
+    def proof_of_work():
+        pass
+
+    def create_block_data():
+        pass
