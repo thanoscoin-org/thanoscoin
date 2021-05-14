@@ -22,8 +22,18 @@ class ThanosChain:
     def create_block():
         pass 
 
-    def create_transaction():
-        pass
+    def create_transaction(self, sender, recipient, amount):
+        
+        transaction_data = sender + ", " + recipient + ", " + str(amount)
+        transaction_id = hashlib.md5(transaction_data.encode()).hexdigest()
+        transaction = {
+            'transaction_id': transaction_id,
+            'sender': sender,
+            'recipient': recipient,
+            'amount': amount
+        }
+
+        self.temp_trx.append(transaction)
 
     def proof_of_work():
         pass
