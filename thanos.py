@@ -1,3 +1,4 @@
+from datetime import datetime
 import hashlib
 
 class Block:
@@ -6,9 +7,11 @@ class Block:
         self.hash = hash 
         self.trx = trx 
         self.previous_hash = previous_hash
+        self.timestamp = datetime.now().timestamp()
     
     def retrieve_information(self):
         block_info = {
+            'timestamp': self.timestamp,
             'previous_hash': self.previous_hash,
             'hash': self.hash,
             'nonce': self.nonce,
