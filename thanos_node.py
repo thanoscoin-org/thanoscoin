@@ -83,7 +83,8 @@ def append_request():
 def broadcast():
     nodes_from_genesis = request.json 
     print(nodes_from_genesis)
-    nodes.extend(nodes_from_genesis)
+    global nodes
+    nodes = nodes_from_genesis
     return {"status" : "success"}
 
 @app.route("/nodes/sync", methods=["POST"])
