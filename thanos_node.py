@@ -86,7 +86,7 @@ def broadcast():
 @app.route("/nodes/sync", methods=["POST"])
 def sync_nodes():
     header = {'Content-type' : 'application/json'}
-    for node in nodes:
+    for node in set(list(nodes)):
         requests.post(node['address'] + "/nodes/broadcast", data=json.dumps(nodes), headers=header)
     
     return {"synchorinzation" : "done"}
