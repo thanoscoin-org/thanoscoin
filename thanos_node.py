@@ -38,7 +38,20 @@ def get_transactions():
 
 @app.route('/blockchain')
 def get_chain():
-    return {"blockcain" : thanos_chain.chain}
+    return {"blockchain" : thanos_chain.chain}
+
+@app.route('/blockchain/sync')
+def sync_blockchains():
+    global thanos_chain 
+    for node in nodes:
+        res = requests.get(node["address"] + "/blockchain") 
+        chain_data = json.loads(res.text)
+        chain_data = chain_data['blockchain']
+
+        if len(chain_data) > len(thanos_chain.chain):
+            thanos_chain.chain = chain_data
+    
+    return {"result" : "synced"}
 
 @app.route('/mine', methods=["POST"])
 def mine():
