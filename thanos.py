@@ -1,6 +1,8 @@
 from datetime import datetime
 import hashlib
 
+MAX_COIN_CAPACITY = 10_000_000_000
+
 class Block:
     def __init__(self, nonce, hash, previous_hash, trx):
         self.nonce = nonce 
@@ -51,6 +53,16 @@ class ThanosChain:
         }
 
         self.temp_trx.append(transaction)
+
+    def validate_trx(self):
+        total = 0 
+        for transaction in self.temp_trx:
+            total += transaction['amount']
+        
+        if total > MAX_COIN_CAPACITY:
+            return False
+        else:
+            return True
 
     def proof_of_work(self):
         last_block = self.chain[-1]
