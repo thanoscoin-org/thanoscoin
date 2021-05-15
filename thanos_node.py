@@ -79,10 +79,7 @@ def append_request():
 @app.route("/nodes/broadcast", methods=["POST"])
 def broadcast():
     nodes_from_genesis = request.json 
-    nodes = nodes.append(nodes_from_genesis)
-    nodes = set(list(nodes))
-    print(nodes)
-    print(type(nodes))
+    print(nodes_from_genesis)
     return {"new_node_list" : nodes}
 
 @app.route("/nodes/sync", methods=["POST"])
