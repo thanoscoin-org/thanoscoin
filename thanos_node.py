@@ -53,7 +53,7 @@ def mine():
 
 @app.route("/nodes")
 def get_nodes():
-    return {"nodes" : nodes}
+    return {"nodes" : set(list(nodes))}
 
 @app.route("/nodes/single")
 def get_node():
@@ -74,6 +74,13 @@ def append_request():
     data = json.dumps(node_info)
     res = requests.post('http://localhost:8000/nodes/append', data=data, headers=headers)
     print(res)
+    return {"status" : "success"}
+
+@app.route("/nodes/broadcast", methods=["POST"])
+def broadcast():
+    nodes_from_genesis = request.json 
+    print(nodes_from_genesis)
+    nodes.extend(nodes_from_genesis)
     return {"status" : "success"}
 
 @app.route("/nodes/sync", methods=["POST"])
