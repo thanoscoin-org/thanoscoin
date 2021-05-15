@@ -51,15 +51,17 @@ class ThanosChain:
             'recipient': recipient,
             'amount': amount
         }
-
-        self.temp_trx.append(transaction)
+        if self.validate_trx():
+            self.temp_trx.append(transaction)
+        else:
+            return -1
 
     def validate_trx(self):
         total = 0 
         for transaction in self.temp_trx:
             total += transaction['amount']
         
-        if total > MAX_COIN_CAPACITY:
+        if total >= MAX_COIN_CAPACITY:
             return False
         else:
             return True
