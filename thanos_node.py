@@ -76,12 +76,6 @@ def append_request():
     print(res)
     return {"status" : "success"}
 
-@app.route("/nodes/broadcast", methods=["POST"])
-def broadcast():
-    nodes_from_genesis = request.json 
-    print(nodes_from_genesis)
-    return {"new_node_list" : nodes}
-
 @app.route("/nodes/sync", methods=["POST"])
 def sync_nodes():
     header = {'Content-type' : 'application/json'}
