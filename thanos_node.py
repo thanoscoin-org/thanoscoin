@@ -76,6 +76,22 @@ def append_request():
     print(res)
     return {"status" : "success"}
 
+@app.route("/nodes/broadcast", methods=["POST"])
+def broadcast():
+    nodes_from_genesis = request.json 
+    nodes = nodes_from_genesis
+    print(nodes)
+    print(type(nodes))
+    return {"new_node_list" : nodes}
+
+@app.route("/nodes/sync", methods=["POST"])
+def sync_nodes():
+    header = {'Content-type' : 'application/json'}
+    for node in nodes:
+        requests.post(node['address'] + "/nodes/broadcast", data=json.dumps(nodes), headers=header)
+    
+    return {"synchorinzation" : "done"}
+
 if __name__ == "__main__":
     port_number = int(port_number)
     app.run(debug=True, port=port_number)
