@@ -28,8 +28,10 @@ def create_transaction():
     amount = data['amount']
     
     thanos_chain.create_transaction(sender=sender, recipient=recipient, amount=amount)
-
-    return {"message" : "TRX updated"}
+    if thanos_chain.validate_trx():
+        return {"message" : "TRX updated"}
+    else:
+        return {"message" : "Imagine Khaby Lame here."}
 
 @app.route('/transactions')
 def get_transactions():
