@@ -1,5 +1,6 @@
 from thanos import ThanosChain
-from flask import Flask, request 
+from flask import Flask, request
+import sys
 import uuid 
 
 node_id = uuid.uuid4()
@@ -45,4 +46,6 @@ def mine():
     return {"message" : "This is your destiny, my child"}
 
 if __name__ == "__main__":
-    app.run(debug=True, port=6969)
+    port_number = sys.argv[1]
+    port_number = int(port_number)
+    app.run(debug=True, port=port_number)
