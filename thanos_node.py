@@ -1,4 +1,4 @@
-from thanos import ThanosChain
+from thanos import ThanosChain, MAX_COIN_CAPACITY
 from flask import Flask, request, jsonify
 import json
 import requests
@@ -27,12 +27,11 @@ def create_transaction():
     recipient = data['recipient']
     amount = data['amount']
     
-    thanos_chain.create_transaction(sender=sender, recipient=recipient, amount=amount)
-    if thanos_chain.validate_trx():
-        return {"message" : "TRX updated"}
+    if thanos_chain.create_transaction(sender=sender, recipient=recipient, amount=amount):
+        return {"message" : "Khaby face..."}
     else:
-        return {"message" : "Imagine Khaby Lame here."}
-
+        return {"message" : "TRX Updted"}
+          
 @app.route('/transactions')
 def get_transactions():
     return {"trx" : thanos_chain.temp_trx}
@@ -47,6 +46,8 @@ def mine():
     miner_device = data["device_id"]
 
     reward_amount = 100
+    global MAX_COIN_CAPACITY 
+    MAX_COIN_CAPACITY -= reward_amount
     thanos_chain.create_transaction(sender=node_id, recipient=miner_device, amount=reward_amount)
 
     thanos_chain.create_block()
@@ -92,6 +93,10 @@ def sync_nodes():
         requests.post(node['address'] + "/nodes/broadcast", data=json.dumps(nodes), headers=header)
     
     return {"synchorinzation" : "done"}
+
+@app.route('/coins_available')
+def coins_available():
+    return {"coins_available" : MAX_COIN_CAPACITY}
 
 if __name__ == "__main__":
     port_number = int(port_number)
