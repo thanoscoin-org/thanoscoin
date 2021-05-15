@@ -45,7 +45,7 @@ def mine():
     data = request.json
     miner_device = data["device_id"]
 
-    reward_amount = 100
+    reward_amount = 10
     global MAX_COIN_CAPACITY 
     MAX_COIN_CAPACITY -= reward_amount
     thanos_chain.create_transaction(sender=node_id, recipient=miner_device, amount=reward_amount)
@@ -56,7 +56,7 @@ def mine():
 
 @app.route("/nodes")
 def get_nodes():
-    return {"nodes" : set(list(nodes))}
+    return {"nodes" : nodes}
 
 @app.route("/nodes/single")
 def get_node():
@@ -67,8 +67,8 @@ def append_new_node():
     node_to_append = request.json
     print(node_to_append)
     print(type(node_to_append))
+    global nodes 
     nodes.append(node_to_append)
-
     return {"added": node_to_append}
 
 @app.route("/nodes/append/request", methods=["POST"])
@@ -89,8 +89,10 @@ def broadcast():
 @app.route("/nodes/sync", methods=["POST"])
 def sync_nodes():
     header = {'Content-type' : 'application/json'}
-    for node in set(list(nodes)):
-        requests.post(node['address'] + "/nodes/broadcast", data=json.dumps(nodes), headers=header)
+    global nodes 
+    for node in nodes:
+        address = node['address'] + "/nodes/broadcast"
+        requests.post(address, data=json.dumps(nodes), headers=header)
     
     return {"synchorinzation" : "done"}
 
