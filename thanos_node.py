@@ -8,12 +8,12 @@ import uuid
 node_id = uuid.uuid4()
 node_id = str(node_id)
 port_number = sys.argv[1]
-thanos_chain = ThanosChain()
-thanos_chain.create_genesis_block()
-
 node_info = {"node_id": node_id, "address": "http://localhost:" + port_number}
 nodes = []
 nodes.append(node_info)
+thanos_chain = ThanosChain()
+thanos_chain.create_genesis_block()
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -79,7 +79,8 @@ def append_request():
 @app.route("/nodes/broadcast", methods=["POST"])
 def broadcast():
     nodes_from_genesis = request.json 
-    nodes = nodes_from_genesis
+    nodes = nodes.append(nodes_from_genesis)
+    nodes = set(list(nodes))
     print(nodes)
     print(type(nodes))
     return {"new_node_list" : nodes}
