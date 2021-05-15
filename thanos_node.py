@@ -81,19 +81,27 @@ def append_request():
 
 @app.route("/nodes/broadcast", methods=["POST"])
 def broadcast():
-    nodes_from_genesis = request.json 
+    data = request.json
+    nodes_from_genesis = data['nodes']
+    new_chain = data['chain']
     print(nodes_from_genesis)
     global nodes
+    global thanos_chain
     nodes = nodes_from_genesis
+    thanos_chain.chain = new_chain
     return {"status" : "success"}
 
 @app.route("/nodes/sync", methods=["POST"])
 def sync_nodes():
     header = {'Content-type' : 'application/json'}
     global nodes 
+    global thanos_chain
+
+    data = {"nodes" : nodes, "chain": thanos_chain.chain} 
+
     for node in nodes:
         address = node['address'] + "/nodes/broadcast"
-        requests.post(address, data=json.dumps(nodes), headers=header)
+        requests.post(address, data=json.dumps(data), headers=header)
     
     return {"synchorinzation" : "done"}
 
